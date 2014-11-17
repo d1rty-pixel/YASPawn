@@ -1,0 +1,8 @@
+SingleServerSpawn: false
+DefaultWorldName: world
+DisabledWorlds:
+- world_nether
+- world_the_end
+SayWorldName: false
+PrefixOnSpawn: false
+Locale: foo
