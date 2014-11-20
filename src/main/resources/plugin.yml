@@ -1,0 +1,7 @@
+name: YASP
+main: org.lichtspiele.yasp.YASP
+version: 1.0
+commands:
+  spawn:
+    usage: /spawn
+    description: The spawn command

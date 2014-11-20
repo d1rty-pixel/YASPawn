@@ -1,8 +1,8 @@
-SingleServerSpawn: false
-DefaultWorldName: world
-DisabledWorlds:
-- world_nether
-- world_the_end
-SayWorldName: false
-PrefixOnSpawn: false
-Locale: foo
+single-server-spawn: false
+default-world: world
+disabled-worlds:
+  - world_nether
+  - world_the_end
+say-world-name: true
+prefix-on-spawn: false
+locale: en_US
