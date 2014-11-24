@@ -2,11 +2,11 @@ package org.lichtspiele.dbb.command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.lichtspiele.dbb.MessageBase;
 import org.lichtspiele.dbb.exception.CommandSenderIsNotPlayerException;
 import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.TranslationFileNotFoundException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yaspawn.Messages;
 
 public class ReloadCommand extends PluginCommandBase {
 
@@ -16,7 +16,7 @@ public class ReloadCommand extends PluginCommandBase {
 		super(plugin, sender, "yaspawn.admin.reload");
 	}
 	
-	public boolean call(Messages messages, String[] args) throws TranslationNotFoundException, TranslationFileNotFoundException {		
+	public boolean call(MessageBase messages, String[] args) throws TranslationNotFoundException, TranslationFileNotFoundException {		
 		this.plugin.reloadConfig();
 		
 		this.reload();
