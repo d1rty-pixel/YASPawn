@@ -1,4 +1,4 @@
-YASP
+YASPawn
 ====
 
 Yet Another Spawn Plugin (Bukkit)
