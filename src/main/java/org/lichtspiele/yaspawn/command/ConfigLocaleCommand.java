@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp.command;
+package org.lichtspiele.yaspawn.command;
 
 import org.bukkit.command.CommandSender ;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,30 +8,24 @@ import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.InvalidCommandException;
 import org.lichtspiele.dbb.exception.TranslationFileNotFoundException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yasp.Messages;
+import org.lichtspiele.yaspawn.Messages;
 
 public class ConfigLocaleCommand extends PluginCommandBase {
-	
-	protected String permission		= "yasp.admin.locale";
 			
 	public ConfigLocaleCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
-		super(plugin, sender);
+		super(plugin, sender, "yaspawn.admin.locale");
 	}
 	
-	public void call(Messages messages, String args[])
+	public boolean call(Messages messages, String args[])
 			throws InvalidCommandException, TranslationNotFoundException, TranslationFileNotFoundException {
-		
-		sender.sendMessage("len: "+ args.length);
-		
+				
 		if (args.length == 0) {
 			messages.locale(sender);
 		
 		} else if (args.length == 1) {	
 			String old_locale	= this.config.getString("locale");
 			String locale 		= args[0].toString();
-			
-			sender.sendMessage("old: " + old_locale + " - set to: " + locale);
 			
 			this.config.set("locale", locale);
 			
@@ -43,14 +37,13 @@ public class ConfigLocaleCommand extends PluginCommandBase {
 			}
 			this.plugin.saveConfig();
 			
-			sender.sendMessage("success");
-			
 			this.call(messages, new String[0]);
 			
 		} else {
-			throw new InvalidCommandException();
-			
+			throw new InvalidCommandException();			
 		}
+		
+		return true;
 	}
 
 }

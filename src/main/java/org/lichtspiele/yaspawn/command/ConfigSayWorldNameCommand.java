@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp.command;
+package org.lichtspiele.yaspawn.command;
 
 import org.bukkit.command.CommandSender; 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,20 +7,16 @@ import org.lichtspiele.dbb.exception.CommandSenderIsNotPlayerException;
 import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.InvalidCommandException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yasp.Messages;
+import org.lichtspiele.yaspawn.Messages;
 
 public class ConfigSayWorldNameCommand extends PluginCommandBase {
-	
-	protected String permission		= "yasp.admin.sayworldname";
-	
+		
 	public ConfigSayWorldNameCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
-		super(plugin, sender);
-		sender.sendMessage("object created");
-		
+		super(plugin, sender, "yasp.admin.sayworldname");
 	}
 	
-	public void call(Messages messages, String args[]) throws InvalidCommandException, TranslationNotFoundException {
+	public boolean call(Messages messages, String args[]) throws InvalidCommandException, TranslationNotFoundException {
 		if (args.length == 0) {
 			messages.sayWorldName(this.sender, this.config.getBoolean("say-world-name"));
 			
@@ -39,6 +35,8 @@ public class ConfigSayWorldNameCommand extends PluginCommandBase {
 		} else {
 			throw new InvalidCommandException();
 		}
+		
+		return true;
 	}
 
 }

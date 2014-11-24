@@ -6,3 +6,4 @@ disabled-worlds:
 say-world-name: true
 prefix-on-spawn: false
 locale: en_US
+use-metrics: true

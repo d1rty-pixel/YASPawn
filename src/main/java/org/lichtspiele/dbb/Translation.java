@@ -1,45 +1,49 @@
 package org.lichtspiele.dbb;
 
-import java.io.File;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.lichtspiele.dbb.exception.CustomConfigurationFileNotFoundException;
+import org.lichtspiele.dbb.exception.TranslationFileNotFoundException;
+import org.lichtspiele.dbb.exception.TranslationNotFoundException;
+import org.lichtspiele.dbb.registry.CustomConfigurationRegistry;
 
 public class Translation {
 
-	String default_language	= "en_US";
+	private String default_locale	= "en_US";
 	
-	String locale_path		= "locale";
+	private String locale_path		= "locale";
 	
-	String language			= null;
+	private String locale			= null;
 	
-	JavaPlugin plugin 		= null;
+	private BukkitPlugin plugin 	= null;
 		
-	YamlConfiguration data	= null;
+	private YamlConfiguration data	= null;
 	
-	public Translation(JavaPlugin plugin, String language) throws TranslationFileNotFoundException {
-		this.plugin = plugin;
-		this.loadTranslation(language);
+	public Translation(JavaPlugin plugin) throws TranslationFileNotFoundException {
+		this.plugin = (BukkitPlugin) plugin;
+		this.loadTranslation();
 	}
 	
-	private void loadTranslation(String language) throws TranslationFileNotFoundException {		
-		String path = this.plugin.getDataFolder().getAbsolutePath() +
-			java.lang.System.getProperty("file.separator") + 
-			this.locale_path + 
-			java.lang.System.getProperty("file.separator");
-
+	private void loadTranslation() throws TranslationFileNotFoundException {
+		String _locale = this.plugin.getConfig().getString("locale");
 
 		YamlConfiguration yc = null;
-		String[] language_files = { language, this.default_language };
+		String[] language_files = { _locale, this.default_locale };
 		
 		for ( String file : language_files ) {
-			File yc_file = new File(path, file + ".yml");
-			System.out.println("[DirtySpawn] Loading locale file "+ yc_file.getName());
-			if (!yc_file.exists()) continue;
 			
-			yc = YamlConfiguration.loadConfiguration(yc_file);
+			this.plugin.getMessagePrefix();
+			try {
+				yc = CustomConfigurationRegistry.get(
+					this.locale_path + java.lang.System.getProperty("file.separator") + file + ".yml"
+				);
+			} catch (CustomConfigurationFileNotFoundException e) {
+				continue;
+			}			
+
 			if (yc != null) {
-				this.language = file;
+				this.locale = file;
 				break;
 			}
 		}
@@ -50,23 +54,30 @@ public class Translation {
 		this.data = yc;
 	}
 	
-	public String getLanguage() {
-		return this.language;
+	public String getLocale() {
+		return this.locale;
 	}
 	
 	public YamlConfiguration getTranslation() {
 		return this.data;
 	}
 	
-	public String getTranslation(String path) {
-		String s = this.data.getString(path);
-		if (s == null) return "Missing translation for " + path;
+	public String getTranslation(String path) throws TranslationNotFoundException {
+		String s;
+		try {
+			s = this.data.getString(path);
+		} catch (NullPointerException e) {
+			throw new TranslationNotFoundException(path);
+		}
+		if (s == null)
+			throw new TranslationNotFoundException(path);
+		 
 		s = ChatColor.translateAlternateColorCodes('&', s);
 		return s;
 	}
 	
-	public String getTranslation(String path, String[] args) {
-		String s = this.data.getString(path);
+	public String getTranslation(String path, String[] args) throws TranslationNotFoundException {
+		String s = this.getTranslation(path);
 		
 		 // check even		
     	if (args.length % 2 == 1)

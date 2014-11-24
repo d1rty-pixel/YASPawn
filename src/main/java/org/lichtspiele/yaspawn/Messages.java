@@ -1,7 +1,5 @@
-package org.lichtspiele.yasp;
+package org.lichtspiele.yaspawn;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.lichtspiele.dbb.MessageBase;
@@ -52,30 +50,10 @@ public class Messages extends MessageBase {
 			this.send(sender, this.translation.getTranslation("world_spawn_state_already_applied", 
 				new String[] { "world", world, "state", this.translation.getTranslation("enabled") } ));
 		} else {
-			this.send(sender, this.translation.getTranslation("world_spawn_state", 
+			this.send(sender, this.translation.getTranslation("world_spawn_state_already_applied", 
 				new String[] { "world", world, "state", this.translation.getTranslation("disabled") } ));			
 		}
-	}	
-	
-	
-	public void enableWorld(CommandSender sender, String world) throws TranslationNotFoundException {
-		this.send(sender, this.translation.getTranslation("enable_world_success", new String[] {"world", world} ));
 	}
-
-	public void enableWorldAlreadyEnabled(CommandSender sender, String world) throws TranslationNotFoundException {
-		this.send(sender, this.translation.getTranslation("enable_world_already_enabled", new String[] {"world", world} ));
-	}	
-
-	/*
-	 * disable world
-	 */
-	public void disableWorld(CommandSender sender, String world) throws TranslationNotFoundException {
-		this.send(sender, this.translation.getTranslation("disable_world_success", new String[] {"world", world} ));
-	}
-
-	public void disableWorldAlreadyDisabled(CommandSender sender, String world) throws TranslationNotFoundException {
-		this.send(sender, this.translation.getTranslation("disable_world_already_disabled", new String[] {"world", world} ));
-	}	
 	
 		
 	/*
@@ -131,6 +109,7 @@ public class Messages extends MessageBase {
 		}
 	}
 	
+	
 	/*
 	 * prefix-on-spawn 
 	 */
@@ -162,21 +141,6 @@ public class Messages extends MessageBase {
 		this.send(sender, this.translation.getTranslation("set_locale",
 			new String[] { "locale", this.translation.getLocale() }
 		));	
-	}
-
-	
-	/*
-	 * help
-	 */
-	public void helpTitle(CommandSender sender) throws TranslationNotFoundException {
-		this.send(sender, this.translation.getTranslation("help_header"));
-	}
-	
-	public void helpEntry(CommandSender sender, String command, String[] args, String desc_lang_key) throws TranslationNotFoundException {
-		this.send(sender, 
-			ChatColor.AQUA + " /" + command  + ChatColor.GREEN + " " + StringUtils.join(args, " ") +
-		    ChatColor.WHITE + " " + this.translation.getTranslation(desc_lang_key),
-		false);	
 	}
 
 }

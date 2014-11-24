@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp;
+package org.lichtspiele.yaspawn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class Worlds {
 	}
 	
 	public boolean isWorldDisabled(String world) {
-		return this.disabled_worlds.contains(world);
+		return this.disabled_worlds.contains(world);		
 	}
 	
 	public boolean disableWorld(String world) {

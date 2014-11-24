@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp.command;
+package org.lichtspiele.yaspawn.command;
 
 import org.bukkit.command.CommandSender; 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,18 +7,16 @@ import org.lichtspiele.dbb.exception.CommandSenderIsNotPlayerException;
 import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.InvalidCommandException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yasp.Messages;
+import org.lichtspiele.yaspawn.Messages;
 
 public class ConfigSingleServerSpawnCommand extends PluginCommandBase {
-	
-	protected String permission		= "yasp.admin.singleserverspawn";
-	
+		
 	public ConfigSingleServerSpawnCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
-		super(plugin, sender);
+		super(plugin, sender,  "yaspawn.admin.singleserverspawn");
 	}
 	
-	public void call(Messages messages, String args[]) throws InvalidCommandException, TranslationNotFoundException {
+	public boolean call(Messages messages, String args[]) throws InvalidCommandException, TranslationNotFoundException {
 		if (args.length == 0) {
 			messages.singleServerSpawn(this.sender, this.config.getBoolean("single-server-spawn"));
 			
@@ -36,6 +34,8 @@ public class ConfigSingleServerSpawnCommand extends PluginCommandBase {
 		} else {
 			throw new InvalidCommandException();
 		}
+		
+		return true;
 	}
 
 }

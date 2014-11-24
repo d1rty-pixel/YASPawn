@@ -1,6 +1,8 @@
-name: YASP
-main: org.lichtspiele.yasp.YASP
-version: 1.0
+name: YASPawn
+author: dirtyequi
+main: org.lichtspiele.yaspawn.YASPawnPlugin
+version: 1.1
+startup: postworld
 commands:
   spawn:
     usage: /spawn

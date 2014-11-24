@@ -24,41 +24,32 @@ public class PluginCommandBase {
 	
 	protected boolean mustBePlayer		= false;
 	
-	public PluginCommandBase(JavaPlugin plugin, CommandSender sender) 
+	public PluginCommandBase(JavaPlugin plugin, CommandSender sender, String permission) 
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
-		this(plugin, sender, false);
+		this(plugin, sender, permission, false);
 	}
 	
-	public PluginCommandBase(JavaPlugin plugin, CommandSender sender, boolean mustBePlayer)
+	public PluginCommandBase(JavaPlugin plugin, CommandSender sender, String permission, boolean mustBePlayer)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
 
-		this.mustBePlayer = mustBePlayer;
-		
-		sender.sendMessage("this class is " + this.toString());
-		sender.sendMessage("mustBePlayer? " + this.mustBePlayer);
+		this.permission		= permission;
+		this.mustBePlayer 	= mustBePlayer;
 		
 		if (this.permission != null && !this.hasPermission(sender, this.permission)) {
 			throw new InsufficientPermissionException(this.permission);			
 		}
 		
-		sender.sendMessage("perm check ok");
-		
-		
 		if (this.mustBePlayer && (!(sender instanceof Player))) {
 			throw new CommandSenderIsNotPlayerException("You need to be in-game for this command");
 		}
 		
-		sender.sendMessage("mustbeplayer check passed");
-		
 		this.plugin 	= plugin;
 		this.sender 	= sender;		
 		if (sender instanceof Player) {
-			sender.sendMessage("is player");
-			this.player = (Player) player;
+			this.player = (Player) sender;
 		}
 		
 		this.reload();
-		sender.sendMessage("config reloaded");
 	}
 
 	protected void mustBePlayer(boolean mbb) {

@@ -8,21 +8,16 @@ import org.lichtspiele.dbb.exception.TranslationFileNotFoundException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
 import org.lichtspiele.yaspawn.Messages;
 
-public class ReloadCommand extends PluginCommandBase {
+public class VersionCommand extends PluginCommandBase {
 
-	public ReloadCommand(JavaPlugin plugin, CommandSender sender)
+	public VersionCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
 		
-		super(plugin, sender, "yaspawn.admin.reload");
+		super(plugin, sender, "yaspawn.yaspawn");
 	}
 	
-	public boolean call(Messages messages, String[] args) throws TranslationNotFoundException, TranslationFileNotFoundException {		
-		this.plugin.reloadConfig();
-		
-		this.reload();
-		messages.reloadTranslation();
-		messages.reload(this.sender);
-		
+	public boolean call(Messages messages, String[] args) throws TranslationNotFoundException, TranslationFileNotFoundException {
+		messages.version(this.sender, args[0]);
 		return true;
 	}
 

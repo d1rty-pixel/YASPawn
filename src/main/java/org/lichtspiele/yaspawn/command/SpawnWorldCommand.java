@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp.command;
+package org.lichtspiele.yaspawn.command;
 
 import java.util.List; 
 
@@ -12,38 +12,32 @@ import org.lichtspiele.dbb.exception.CommandSenderIsNotPlayerException;
 import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.InvalidCommandException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yasp.Messages;
-import org.lichtspiele.yasp.Worlds;
+import org.lichtspiele.yaspawn.Messages;
+import org.lichtspiele.yaspawn.Worlds;
 
 public class SpawnWorldCommand extends PluginCommandBase {
 
-	protected String permission			= "yasp.spawn.world";
-	
-	protected boolean mustBePlayer		= true;
-	
 	private Worlds worlds				= null;
 	
 	@SuppressWarnings("unchecked")
 	public SpawnWorldCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
-		
-		super(plugin, sender);
+		super(plugin, sender, "yaspawn.spawn.world");
 		
 		this.worlds = new Worlds((List<Object>) this.config.getList("disabled-worlds"));
 	}
 	
-	public void call(Messages messages, String[] args) throws InvalidCommandException, TranslationNotFoundException {		
+	public boolean call(Messages messages, String[] args) throws InvalidCommandException, TranslationNotFoundException {		
 		if (args.length == 1) {
-			
+						
 			if (!this.worlds.worldExists(args[0])) {
 				messages.unknownWorld(sender, args[0]);
-				return;
+				return true;
 			}
 			
-			World world = Bukkit.getServer().getWorld(args[0]);
-			
-			Location wsl = world.getSpawnLocation();
-			Location location = new Location(world, wsl.getX(), wsl.getY(), wsl.getZ(), wsl.getYaw(), wsl.getPitch());
+			World world 		= Bukkit.getServer().getWorld(args[0]);
+			Location wsl 		= world.getSpawnLocation();
+			Location location 	= new Location(world, wsl.getX(), wsl.getY(), wsl.getZ(), wsl.getYaw(), wsl.getPitch());
 			
 			this.player.teleport(location);
 			
@@ -56,7 +50,7 @@ public class SpawnWorldCommand extends PluginCommandBase {
 			throw new InvalidCommandException();
 		}
 				
-
+		return true;
 	}
 
 }

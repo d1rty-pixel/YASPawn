@@ -1,4 +1,4 @@
-package org.lichtspiele.yasp.command;
+package org.lichtspiele.yaspawn.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,30 +9,19 @@ import org.lichtspiele.dbb.command.PluginCommandBase;
 import org.lichtspiele.dbb.exception.CommandSenderIsNotPlayerException;
 import org.lichtspiele.dbb.exception.InsufficientPermissionException;
 import org.lichtspiele.dbb.exception.TranslationNotFoundException;
-import org.lichtspiele.yasp.Messages;
+import org.lichtspiele.yaspawn.Messages;
 
 public class SpawnCommand extends PluginCommandBase {
-
-	protected String permission			= "yasp.spawn";
 	
 	public SpawnCommand(JavaPlugin plugin, CommandSender sender)
 			throws InsufficientPermissionException, CommandSenderIsNotPlayerException {
 		
-		super(plugin, sender, true);
+		super(plugin, sender, "yaspawn.spawn", true);
 	}
 	
-	public void call(Messages messages, String[] args) throws TranslationNotFoundException {
+	public boolean call(Messages messages, String[] args) throws TranslationNotFoundException {
 		World world = null;
-		
-		this.sender.sendMessage("im in call");
-		
-		this.sender.sendMessage("you are " + this.sender.getName());
-		this.sender.sendMessage("you are " + this.player.getName());
-		
-		
-		System.out.println(this.player.getDisplayName());		
-		System.out.println(this.player.getWorld().getName());
-		
+			
 		if (
 				(this.config.getBoolean("single-server-spawn")) || 					
 				(this.config.getList("disabled-worlds")).contains(this.player.getWorld().getName().toString())
@@ -54,6 +43,8 @@ public class SpawnCommand extends PluginCommandBase {
 		} else {
 			messages.spawn(this.player, this.config.getBoolean("prefix-on-spawn"));
 		}
+		
+		return true;
 	}
 
 }
